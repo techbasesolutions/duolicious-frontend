@@ -54,7 +54,7 @@ const CheckBox = ({children, ...rest}) => {
           {marginRight: 8} :
           {marginLeft: 8}
         }
-        color="#70f"
+        color="#5524F5"
       />
       {labelPosition === 'right' &&
         <Pressable onPress={onValueChange_} hitSlop={hitSlop}>
@@ -101,7 +101,7 @@ const StatelessCheckBox = ({children, ...rest}) => {
           {marginRight: 8} :
           {marginLeft: 8}
         }
-        color="#70f"
+        color="#5524F5"
       />
       {labelPosition === 'right' &&
         <Pressable onPress={onValueChange_} hitSlop={hitSlop}>

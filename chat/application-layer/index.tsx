@@ -230,7 +230,7 @@ const jidToBareJid = (jid: string): string =>
   jid.split('@')[0];
 
 const personUuidToJid = (personUuid: string): string =>
-  `${personUuid}@duolicious.app`;
+  `${personUuid}@ahavah.app`;
 
 const setInboxSent = (recipientPersonUuid: string, message: string) => {
   const i = _.cloneDeep(getInbox() ?? emptyInbox());
@@ -946,8 +946,8 @@ const fetchConversation = async (
     const expectedDoc = {
       iq: {
         "@xmlns": "jabber:client",
-        "@from": `${credentials.username}@duolicious.app`,
-        "@to": `${credentials.username}@duolicious.app`,
+        "@from": `${credentials.username}@ahavah.app`,
+        "@to": `${credentials.username}@ahavah.app`,
         "@id": queryId,
         "@type": "result",
         fin: {

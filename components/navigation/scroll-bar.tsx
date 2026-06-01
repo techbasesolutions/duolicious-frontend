@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   },
   thumb: {
     width: '100%',
-    backgroundColor: '#70f',
+    backgroundColor: '#5524F5',
     borderRadius: 99,
 
     ...(Platform.OS === 'web' ? {

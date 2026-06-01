@@ -63,23 +63,20 @@ const DuoliciousTopNavBar = (props) => {
       }}
       backgroundColor={backgroundColor}
     >
-      {isMobile() && <>
-        <Logo16
-          size={16 * 2}
-          color={appTheme.brandColor}
-          rectSize={0.35}
-        />
+      {isMobile() && (
+        // Logo16 (duolicious heart-pair) removed in Task 0.9 — Phase 6 Task
+        // 6.1 builds the proper BrandMark atom from commissioned art.
         <DefaultText
           style={{
             fontFamily: 'TruenoBold',
             color: textColor ?? appTheme.brandColor,
             fontSize: 22,
+            letterSpacing: -0.5,
           }}
         >
-          Duolicious
+          ahavah
         </DefaultText>
-        </>
-      }
+      )}
       {children}
     </TopNavBar>
   );

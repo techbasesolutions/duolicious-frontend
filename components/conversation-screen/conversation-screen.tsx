@@ -481,7 +481,7 @@ const ConversationScreen = ({navigation, route}) => {
 
   // Surface the other person's name in the browser tab. App.tsx's
   // `documentTitle.formatter` reads `options.title` from the focused screen
-  // and prepends it to "Duolicious". `name` is already seeded optimistically
+  // and prepends it to "Ahavah". `name` is already seeded optimistically
   // from prospect-cache and refined once the API resolves, so we just track
   // whatever it currently holds.
   useLayoutEffect(() => {
@@ -834,7 +834,7 @@ const ConversationScreen = ({navigation, route}) => {
                       marginRight: '10%',
                     }}
                   >
-                    Intros on Duolicious have to be totally unique! Try
+                    Intros on Ahavah have to be totally unique! Try
                     asking {name} about something interesting on their profile...
                   </DefaultText>
                 </>

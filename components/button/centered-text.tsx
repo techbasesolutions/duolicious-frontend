@@ -95,14 +95,14 @@ const ButtonWithCenteredText = (props) => {
           borderRadius: 999,
           borderColor: borderColor === undefined ? 'black' : borderColor,
           borderWidth: borderWidth === undefined ? (secondary ? 1 : 0) : borderWidth,
-          backgroundColor: backgroundColor || (secondary ? appTheme.primaryColor : '#70f'),
+          backgroundColor: backgroundColor || (secondary ? appTheme.primaryColor : '#5524F5'),
           opacity: animatedOpacity,
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
         {loading &&
-          <ActivityIndicator size="large" color={secondary ? "#70f" : appTheme.primaryColor} />
+          <ActivityIndicator size="large" color={secondary ? "#5524F5" : appTheme.primaryColor} />
         }
         {!loading && children &&
           <DefaultText

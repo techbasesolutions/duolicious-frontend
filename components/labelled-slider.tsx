@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { Slider, SliderHandle } from './slider';
 import { DefaultText } from './default-text';
-import { LINEAR_SCALE } from '../scales/scales';
+import { LINEAR_SCALE } from '../util/slider-scales';
 
 // TODO: Range slider doesn't adjust thumb
 

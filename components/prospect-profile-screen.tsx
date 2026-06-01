@@ -26,7 +26,6 @@ import { StatusBarSpacer } from './status-bar-spacer';
 import { DefaultText } from './default-text';
 import { DonutChart } from './donut-chart';
 import { Title } from './title';
-import { InDepthScreen } from './in-depth-screen';
 import { ButtonWithCenteredText } from './button/centered-text';
 import { api } from '../api/api';
 import { cmToFeetInchesStr } from '../units/units';
@@ -87,9 +86,8 @@ const ProspectProfileScreen = () => {
     return Content(navigationRef);
   }, [navigationRef]);
 
-  const InDepthScreen_ = useMemo(() => {
-    return InDepthScreen(navigationRef);
-  }, [navigationRef]);
+  // In-Depth screen removed in Task 0.3b — it displayed the prospect's Q&A
+  // answers, which no longer exist post Q&A subsystem strip.
 
   return (
     <Stack.Navigator
@@ -100,7 +98,6 @@ const ProspectProfileScreen = () => {
       }}
     >
       <Stack.Screen name="Prospect Profile" component={ProspectProfileScreen_} />
-      <Stack.Screen name="In-Depth" component={InDepthScreen_} />
       <Stack.Screen name="Gallery Screen" component={GalleryScreen} />
     </Stack.Navigator>
   );
@@ -452,7 +449,8 @@ const SeeQAndAButton = ({navigation, personUuid, name}) => {
   ).current;
 
   const onPress = useCallback(() => {
-    navigation.navigate('In-Depth', { personUuid });
+    // No-op in Task 0.3b — In-Depth screen (Q&A answers display) was removed.
+    // Surrounding button surfaces will be repurposed in Phase 6.
   }, [personUuid]);
 
   return (
@@ -507,7 +505,7 @@ const BlockButton = ({name, personUuid}) => {
       }}
     >
       {isPosting &&
-        <ActivityIndicator size="small" color="#70f"/>
+        <ActivityIndicator size="small" color="#5524F5"/>
       }
       {!isLoading && isSkipped &&
         <RotateCcw
@@ -841,7 +839,7 @@ const CurriedContent = ({navigationRef, navigation, route}) => {
 
   // Surface the prospect's name in the browser tab. We prefer the freshly
   // fetched name but fall back to the optimistic hint while the API is in
-  // flight so the title doesn't briefly read "Duolicious" before snapping
+  // flight so the title doesn't briefly read "Ahavah" before snapping
   // to the name. App.tsx's `documentTitle.formatter` reads `options.title`.
   const screenTitle = data?.name ?? getProspectHint(personUuid)?.name;
   useLayoutEffect(() => {
@@ -946,7 +944,7 @@ const CurriedContent = ({navigationRef, navigation, route}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#70f',
+            backgroundColor: '#5524F5',
             paddingHorizontal: 30,
             gap: 14,
           }}
@@ -1126,10 +1124,11 @@ const ProspectUserDetails = ({
   bodyColor,
 }) => {
   const onPressDonutChart = useCallback(() => {
+    // No-op in Task 0.3b — donut chart formerly opened the Q&A In-Depth view,
+    // which was removed with the Q&A subsystem. Donut chart will be replaced
+    // by CompatibilityPill in Phase 6 Task 6.1.
     if (personId === undefined) return;
     if (name === undefined) return;
-
-    navigation.navigate('In-Depth', { personUuid });
   }, [navigation, personUuid, personId, name]);
 
   return (
@@ -1593,6 +1592,5 @@ const styles = StyleSheet.create({
 export {
   FloatingBackButton,
   GalleryScreen,
-  InDepthScreen,
   ProspectProfileScreen,
 };

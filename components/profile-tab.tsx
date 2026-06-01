@@ -549,7 +549,7 @@ const Options = ({ navigation, data }) => {
       return;
     }
 
-    await Linking.openURL(`https://duolicious.app/export-data/?token=${token}`);
+    await Linking.openURL(`https://ahavah.app/export-data/?token=${token}`);
 
     setDataExportStatus('ok');
   }, []);
@@ -785,21 +785,22 @@ const AboutDuolicious = () => {
         About
       </Title>
       <DefaultText
-        onPress={() => Linking.openURL('https://github.com/duolicious')}
+        onPress={() => Linking.openURL('https://github.com/techbasesolutions/duolicious-frontend')}
         style={{
           textAlign: 'center',
           color: '#999',
         }}
       >
-        Duolicious is free software licensed under the AGPLv3. The source code
-        used to make Duolicious is available {}
+        Ahavah is free software licensed under the AGPLv3, forked from
+        the open-source Duolicious project. The Ahavah source code is
+        available {}
         <DefaultText style={{fontWeight: '600', color: '#37f'}}>
           here
         </DefaultText>
         .
       </DefaultText>
       <DefaultText
-        onPress={() => Linking.openURL('mailto:support@duolicious.app')}
+        onPress={() => Linking.openURL('mailto:support@ahavah.app')}
         style={{
           marginTop: 25,
           textAlign: 'center',
@@ -808,7 +809,7 @@ const AboutDuolicious = () => {
       >
         You can contact us at {}
         <DefaultText style={{fontWeight: '600', color: '#37f'}}>
-          support@duolicious.app
+          support@ahavah.app
         </DefaultText>
         {} to provide feedback, report abuse, or submit any other concerns or
         queries you have.
@@ -822,7 +823,7 @@ const AboutDuolicious = () => {
             color: '#999',
           }}
         >
-          Duolicious Web Version {WEB_VERSION}
+          Ahavah Web Version {WEB_VERSION}
         </DefaultText>
       }
     </View>

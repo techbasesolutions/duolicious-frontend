@@ -17,16 +17,16 @@ export const STATUS_URL = Constants.expoConfig?.extra?.statusUrl
   ?? 'http://localhost:8080';
 
 export const INVITE_URL = Constants.expoConfig?.extra?.inviteUrl
-  ?? 'https://duolicious.gg';
+  ?? 'https://ahavah.app';
 
 // Base URL of the web app. Used to build shareable deep-links (e.g. profile
 // share URLs) that should land in the web app for non-app users. This is
 // distinct from `INVITE_URL`, which points at the club-invite landing page.
 export const WEB_URL = Constants.expoConfig?.extra?.webUrl
-  ?? 'https://web.duolicious.app';
+  ?? 'https://web.ahavah.app';
 
 export const PARTNER_URL = Constants.expoConfig?.extra?.partnerUrl
-  ?? 'https://partner.duolicious.app'
+  ?? 'https://partner.ahavah.app'
 
 export const WEB_VERSION = Constants.expoConfig?.extra?.webVersion
   ?? '000000';
@@ -35,7 +35,7 @@ export const TENOR_API_KEY = Constants.expoConfig?.extra?.tenorApiKey
   ?? 'LIVDSRZULELA';
 
 export const NOTIFICATION_ICON_URL = Constants.expoConfig?.extra?.notificationIconUrl
-  ?? 'https://duolicious.app/assets/desktop-notification.png';
+  ?? 'https://ahavah.app/assets/desktop-notification.png';
 
 export const NOTIFICATION_SOUND_URL = Constants.expoConfig?.extra?.notificationSoundUrl
-  ?? 'https://duolicious.app/assets/desktop-notification.wav';
+  ?? 'https://ahavah.app/assets/desktop-notification.wav';

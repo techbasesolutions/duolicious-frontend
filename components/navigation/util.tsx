@@ -1,5 +1,4 @@
 import { Platform, View } from 'react-native';
-import { QAndADevice } from '../q-and-a-device';
 import { Gold } from '../badges';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSignedInUser } from '../../events/signed-in-user';
@@ -98,14 +97,7 @@ const LabelToIcon = ({
 
   return (
     <>
-      {label === 'Q&A' &&
-        <QAndADevice
-          color={color}
-          height={height}
-          isBold={isFocused}
-          backgroundColor={backgroundColor}
-        />
-      }
+      {/* Q&A tab icon removed in Task 0.3b. */}
       {label === 'Search' &&
         <Ionicons style={{...iconStyle}} name={searchIcon}/>
       }

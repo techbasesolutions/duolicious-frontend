@@ -3,6 +3,7 @@ import {
   Keyboard,
   Linking,
   Platform,
+  Pressable,
   SafeAreaView,
   StatusBar,
   Text,
@@ -10,7 +11,6 @@ import {
   useWindowDimensions,
 } from 'react-native';
 import {
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -31,6 +31,11 @@ import { joinClub } from '../club/club';
 import { isMobile } from '../util/util';
 import { setOptionScreenPayload } from '../navigation/option-screen-store';
 
+// Phase 6 Task 6.1 atoms — ahavah brand chrome on welcome screen.
+import { BrandMark } from './ui/brand-mark';
+import { Heading, Body } from './ui/typography';
+import { PillButton, Pill } from './ui/pill';
+
 const activeMembersText = (
   numActiveMembers: number,
   minActiveMembers: number,
@@ -50,7 +55,7 @@ const ActiveMembers = ({
   numActiveMembers,
   minActiveMembers,
   color,
-  minText = 'on the Duolicious dating app',
+  minText = 'on the Ahavah dating app',
 }: {
   numActiveMembers: number,
   minActiveMembers: number
@@ -126,40 +131,13 @@ const WelcomeScreen = () => {
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: '#70f',
+        backgroundColor: '#000000',  // Task 0.9 — bg.DEFAULT from ahavah-design-tokens (was duolicious '#000000')
         overflow: 'hidden',
       }}
     >
-      {Platform.OS === 'web' && windowWidth >= 950 && <>
-        <img
-          src="https://duolicious.app/assets/landing/left.svg"
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            left: `-${75 + Math.max(0, (1380 - windowWidth) / 2)}px`,
-            width: '500px',
-            height: 'auto',
-            objectFit: 'cover',
-            backfaceVisibility: 'hidden',
-            transition: 'transform 0.5s ease-out',
-          }}
-        >
-        </img>
-        <img
-          src="https://duolicious.app/assets/landing/right.svg"
-          style={{
-            position: 'absolute',
-            bottom: '0',
-            right: `-${75 + Math.max(0, (1380 - windowWidth) / 2)}px`,
-            width: '500px',
-            height: 'auto',
-            objectFit: 'cover',
-            backfaceVisibility: 'hidden',
-            transition: 'transform 0.5s ease-out',
-          }}
-        >
-        </img>
-      </>}
+      {/* ahavah.app/assets/landing/{left,right}.svg references removed in
+          Task 0.9. Phase 6 Task 6.2 Step 1 will replace with MatchConfetti +
+          a proper Ahavah landing composition. */}
       <View
         style={{
           height: '100%',
@@ -259,7 +237,7 @@ const InviteScreen = ({navigation, route}) => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: '#70f',
+        backgroundColor: '#000000',
         width: '100%',
         height: '100%',
       }}
@@ -292,7 +270,7 @@ const InviteScreen = ({navigation, route}) => {
             }}
             selectable={false}
           >
-            Duolicious
+            Ahavah
           </Text>
         </View>
         <View
@@ -387,7 +365,7 @@ const InviteScreen = ({navigation, route}) => {
                   style={{
                     fontWeight: '600',
                   }}
-                  onPress={() => Linking.openURL('https://duolicious.app/terms')}
+                  onPress={() => Linking.openURL('https://ahavah.app/terms')}
                 >
                   Terms
                 </DefaultText>
@@ -395,7 +373,7 @@ const InviteScreen = ({navigation, route}) => {
                 <DefaultText
                   disableTheme
                   style={{ fontWeight: '600' }}
-                  onPress={() => Linking.openURL('https://duolicious.app/privacy')}
+                  onPress={() => Linking.openURL('https://ahavah.app/privacy')}
                 >
                   Privacy Policy
                 </DefaultText>
@@ -403,7 +381,7 @@ const InviteScreen = ({navigation, route}) => {
                 <DefaultText
                   disableTheme
                   style={{ fontWeight: '600' }}
-                  onPress={() => Linking.openURL('https://duolicious.app/guidelines')}
+                  onPress={() => Linking.openURL('https://ahavah.app/guidelines')}
                 >
                   Community Guidelines
                 </DefaultText>
@@ -462,7 +440,8 @@ const WelcomeScreen_ = ({navigation, route}) => {
         showSkipButton: false,
         showCloseButton: false,
         showBackButton: true,
-        backgroundColor: '#7700ff',
+        // Task 0.9 — backgroundColor is now Ahavah indigo (was duolicious '#5524F5')
+        backgroundColor: '#5524F5',
         color: '#ffffff',
       });
       navigation.navigate('Create Account Or Sign In Screen');
@@ -472,7 +451,7 @@ const WelcomeScreen_ = ({navigation, route}) => {
         response.status === 429 ? 'You’re doing that too much' :
         response.status === 460 ? 'Network blocked. Are you using a VPN?' :
         response.status === 461 ? 'Your account is banned' :
-        'We couldn’t connect to Duolicious'
+        'We couldn’t connect to Ahavah'
       );
     }
   };
@@ -492,31 +471,20 @@ const WelcomeScreen_ = ({navigation, route}) => {
     }
   }, [numUsers]);
 
-  const SuffixButton = useCallback(({suffix}) => (
-    <ButtonWithCenteredText
+  const EmailSuffixPill = ({ suffix }: { suffix: string }) => (
+    <Pill
       onPress={() => !isLoading && submit(suffix)}
-      borderWidth={0}
-      secondary={true}
-      containerStyle={{
-        marginTop: 0,
-        marginBottom: 0,
-        height: undefined,
-      }}
-      backgroundColor="rgb(228, 204, 255)"
-      textStyle={{
-        padding: 10,
-        fontSize: 12,
-        color: '#70f',
-      }}
+      size="sm"
+      disabled={isLoading}
     >
       {suffix}
-    </ButtonWithCenteredText>
-  ), [isLoading, submit]);
+    </Pill>
+  );
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: '#70f',
+        backgroundColor: '#000000',     // bg.DEFAULT (Ahavah dark canvas)
         width: '100%',
         height: '100%',
         flexDirection: 'row',
@@ -528,67 +496,56 @@ const WelcomeScreen_ = ({navigation, route}) => {
         style={{
           width: '100%',
           height: '100%',
+          maxWidth: 600,
           alignSelf: 'center',
           flexDirection: 'column',
+          paddingHorizontal: 20,
         }}
       >
+        {/* Brand mark — replaces Logo16 + Trueno wordmark */}
         <View
           style={{
-            marginTop: 10 + (Platform.OS === 'web' ? 0 : StatusBar.currentHeight ?? 0),
+            marginTop: 16 + (Platform.OS === 'web' ? 0 : StatusBar.currentHeight ?? 0),
             flexDirection: 'row',
-            alignItems: 'center',
             justifyContent: 'center',
-            gap: 1,
+            alignItems: 'center',
           }}
         >
-          <Logo16 size={32} rectSize={0.3} doAnimate={true} />
-          <Text
-            style={{
-              color: 'white',
-              alignSelf: 'center',
-              fontFamily: 'TruenoBold',
-              fontSize: 20,
-            }}
-            selectable={false}
-          >
-            Duolicious
-          </Text>
+          <BrandMark mode="full" size="md" />
         </View>
+
+        {/* Hero — Plus Jakarta Sans Bold via Heading atom */}
         <View
           style={{
             flex: 1,
-            alignSelf: 'center',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 10,
+            gap: 12,
           }}
         >
-          <DefaultText
-            style={{
-              width: 320,
-              textAlign: 'center',
-              color: 'white',
-              fontSize: 26,
-              fontFamily: 'MontserratBlack',
-            }}
+          <Heading
+            level="h1"
+            style={{ textAlign: 'center', maxWidth: 360 }}
           >
-            {clubName_ ?
-              `Join ${clubName_} on Duolicious` :
-              'Cute dates & dank memes await...'}
-          </DefaultText>
-          {windowHeight > 500 &&
+            {clubName_
+              ? `Join ${clubName_} on Ahavah`
+              : 'Find love across borders.'}
+          </Heading>
+          <Body tone="secondary" style={{ textAlign: 'center', maxWidth: 320 }}>
+            Connect with people from anywhere, in any language.
+          </Body>
+          {windowHeight > 500 && (
             <ActiveMembers
               numActiveMembers={numUsers ?? -1}
               minActiveMembers={0}
-              color="white"
+              color="#B5B0CC"  /* text.secondary */
               minText={'\xa0'}
             />
-          }
+          )}
         </View>
-        <View style={{
-          justifyContent: 'flex-start',
-          flex: 1,
-        }}>
+
+        {/* Email input + suffix pills + status */}
+        <View style={{ width: '100%', gap: 8 }}>
           <DefaultTextInput
             placeholder="Enter your email to begin"
             keyboardType="email-address"
@@ -601,99 +558,68 @@ const WelcomeScreen_ = ({navigation, route}) => {
             onSubmitEditing={isMobile() ? undefined : () => submit()}
             autoFocus={Platform.OS !== 'ios'}
           />
-          <DefaultText
-            style={{
-              alignSelf: 'center',
-              marginTop: 5,
-              marginLeft: 20,
-              marginRight: 20,
-              color: 'white',
-              opacity: loginStatus !== "" ? 1 : 0
-            }}
-          >
-            {loginStatus || '\xa0'}
-          </DefaultText>
-          {windowHeight > 500 &&
+          {!!loginStatus && (
+            <Body tone="secondary" style={{ textAlign: 'center', marginTop: 4 }}>
+              {loginStatus}
+            </Body>
+          )}
+          {windowHeight > 500 && (
             <View
               style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',
-                marginTop: 5,
-                marginLeft: 20,
-                marginRight: 20,
-                gap: 10,
+                gap: 8,
+                marginTop: 4,
               }}
             >
-              <SuffixButton suffix="@gmail.com" />
-              <SuffixButton suffix="@proton.me" />
-              <SuffixButton suffix="@yahoo.com" />
-              <SuffixButton suffix="@hotmail.com" />
-              <SuffixButton suffix="@outlook.com" />
+              <EmailSuffixPill suffix="@gmail.com" />
+              <EmailSuffixPill suffix="@proton.me" />
+              <EmailSuffixPill suffix="@yahoo.com" />
+              <EmailSuffixPill suffix="@hotmail.com" />
+              <EmailSuffixPill suffix="@outlook.com" />
             </View>
-          }
+          )}
         </View>
+
+        {/* Primary CTA + terms */}
         <View
           style={{
-            justifyContent: 'center',
-            paddingHorizontal: 20,
-            paddingBottom: 10,
-            alignSelf: 'flex-start',
+            paddingTop: 20,
+            paddingBottom: 16,
             width: '100%',
+            gap: 12,
           }}
         >
-          <ButtonWithCenteredText
-            onPress={() => submit()}
-            secondary={true}
-            loading={isLoading}
-            extraChildren={
-              <View style={{ flexDirection: 'row' }}>
-                <DefaultText style={{ fontSize: 16, textAlign: 'center', fontWeight: '700' }}>
-                  Sign Up
-                </DefaultText>
-                <DefaultText style={{ fontSize: 16 }}>
-                  {} or {}
-                </DefaultText>
-                <DefaultText style={{ fontSize: 16, textAlign: 'center', fontWeight: '700' }}>
-                  Sign In
-                </DefaultText>
-              </View>
-            }
-          />
-          <DefaultText
-            style={{
-              color: 'white',
-              textAlign: 'center',
-              alignSelf: 'center',
-              lineHeight: 28,
-            }}
+          <PillButton onPress={() => submit()} loading={isLoading} fullWidth size="lg">
+            Sign Up or Sign In
+          </PillButton>
+          <Body
+            tone="muted"
+            size="xs"
+            style={{ textAlign: 'center', lineHeight: 18 }}
           >
-            By signing up you agree to our {}
-            <DefaultText
-              disableTheme
-              style={{
-                fontWeight: '600',
-              }}
-              onPress={() => Linking.openURL('https://duolicious.app/terms')}
+            By signing up you agree to our{' '}
+            <Text
+              style={{ color: '#B5B0CC', fontWeight: '600' }}
+              onPress={() => Linking.openURL('https://ahavah.app/terms')}
             >
               Terms
-            </DefaultText>
-            {}, {}
-            <DefaultText
-              disableTheme
-              style={{ fontWeight: '600' }}
-              onPress={() => Linking.openURL('https://duolicious.app/privacy')}
+            </Text>
+            ,{' '}
+            <Text
+              style={{ color: '#B5B0CC', fontWeight: '600' }}
+              onPress={() => Linking.openURL('https://ahavah.app/privacy')}
             >
               Privacy Policy
-            </DefaultText>
-            {} and {}
-            <DefaultText
-              disableTheme
-              style={{ fontWeight: '600' }}
-              onPress={() => Linking.openURL('https://duolicious.app/guidelines')}
+            </Text>
+            {' '}and{' '}
+            <Text
+              style={{ color: '#B5B0CC', fontWeight: '600' }}
+              onPress={() => Linking.openURL('https://ahavah.app/guidelines')}
             >
               Community Guidelines
-            </DefaultText>
-          </DefaultText>
+            </Text>
+          </Body>
         </View>
       </KeyboardDismissingView>
     </SafeAreaView>

@@ -4,9 +4,10 @@ import { ExpoConfig } from 'expo/config';
 // import { ExpoConfig } from '@expo/config-types';
 
 const config: ExpoConfig = {
-  name: 'Duolicious',
-  slug: 'duolicious',
-  version: "32.0.0",
+  name: 'Ahavah',
+  slug: 'ahavah',
+  scheme: 'ahavah',
+  version: "0.1.0",
   orientation: "portrait",
   icon: './assets/icon.png',
   newArchEnabled: true,
@@ -17,23 +18,21 @@ const config: ExpoConfig = {
     "**/*"
   ],
   androidNavigationBar: {
-    barStyle: "dark-content",
-    backgroundColor: '#ffffff'
+    barStyle: "light-content",
+    backgroundColor: '#000000'
   },
   extra: {
-    eas: {
-      projectId: "a756e088-c07a-4034-b9c5-51f50139ac21"
-    },
-    apiUrl: process.env.DUO_API_URL,
-    chatUrl: process.env.DUO_CHAT_URL,
-    imagesUrl: process.env.DUO_IMAGES_URL,
-    audioUrl: process.env.DUO_AUDIO_URL,
-    statusUrl: process.env.DUO_STATUS_URL,
-    inviteUrl: process.env.DUO_INVITE_URL,
-    webUrl: process.env.DUO_WEB_URL,
-    partnerUrl: process.env.DUO_PARTNER_URL,
-    webVersion: process.env.DUO_WEB_VERSION,
-    tenorApiKey: process.env.DUO_TENOR_API_KEY,
+    // EAS projectId reset; will be populated by `eas init` in Task 0.10.
+    apiUrl: process.env.AHAVAH_API_URL,
+    chatUrl: process.env.AHAVAH_CHAT_URL,
+    imagesUrl: process.env.AHAVAH_IMAGES_URL,
+    audioUrl: process.env.AHAVAH_AUDIO_URL,
+    statusUrl: process.env.AHAVAH_STATUS_URL,
+    inviteUrl: process.env.AHAVAH_INVITE_URL,
+    webUrl: process.env.AHAVAH_WEB_URL,
+    partnerUrl: process.env.AHAVAH_PARTNER_URL,
+    webVersion: process.env.AHAVAH_WEB_VERSION,
+    tenorApiKey: process.env.AHAVAH_TENOR_API_KEY,
     notificationIconUrl: process.env.NOTIFICATION_ICON_URL,
     notificationSoundUrl: process.env.NOTIFICATION_SOUND_URL,
   },
@@ -41,37 +40,26 @@ const config: ExpoConfig = {
     favicon: "./assets/favicon.png"
   },
   ios: {
-    bundleIdentifier: "app.duolicious",
+    bundleIdentifier: "com.techbasesolutions.ahavah",
     supportsTablet: false,
-    associatedDomains: ["applinks:get.duolicious.app"],
-    appStoreUrl: "https://apps.apple.com/us/app/duolicious-dating-app/id6499066647",
+    // associatedDomains: stripped — re-add once Ahavah's deep-link domain is live.
+    // appStoreUrl: stripped — re-add post-submission.
     infoPlist: {
-      NSMicrophoneUsageDescription: "This app uses the microphone to capture audio for updating and sharing on your profile.",
-      NSCameraUsageDescription: "This app uses the camera to capture images for verifying your profile.",
+      NSMicrophoneUsageDescription: "Ahavah uses the microphone to record voice messages and capture audio for your profile.",
+      NSCameraUsageDescription: "Ahavah uses the camera to take profile photos and verify your identity.",
+      NSPhotoLibraryUsageDescription: "Ahavah uses your photo library so you can choose profile photos.",
       ITSAppUsesNonExemptEncryption: false
     },
   },
   android: {
-    googleServicesFile: "./google-services.json",
-    package: "app.duolicious",
+    // googleServicesFile: stripped — re-add once Ahavah's Firebase project exists.
+    package: "com.techbasesolutions.ahavah",
     adaptiveIcon: {
       foregroundImage: "./assets/adaptive-icon.png",
-      backgroundColor: "#7700ff"
+      backgroundColor: "#000000"
     },
-    intentFilters: [
-      {
-        action: "VIEW",
-        autoVerify: true,
-        data: [
-          {
-            scheme: "https",
-            host: "get.duolicious.app"
-          }
-        ],
-        category: ["BROWSABLE", "DEFAULT"]
-      }
-    ],
-    playStoreUrl: "https://play.google.com/store/apps/details?id=app.duolicious",
+    // intentFilters: stripped — re-add once Ahavah's deep-link domain is live.
+    // playStoreUrl: stripped — re-add post-submission.
     blockedPermissions: [
       'android.permission.READ_MEDIA_IMAGES',
       'android.permission.READ_MEDIA_VIDEO',
@@ -84,7 +72,7 @@ const config: ExpoConfig = {
       "expo-notifications",
       {
         "icon": "./assets/notification.png",
-        "color": "#7700ff",
+        "color": "#5524F5",
         "sounds": [
           "./assets/audio/notification.mp3"
         ]
@@ -93,7 +81,7 @@ const config: ExpoConfig = {
     [
       "expo-splash-screen",
       {
-        backgroundColor: "#7700ff",
+        backgroundColor: "#000000",
         image: "./assets/splash.png",
         imageWidth: 300,
       }

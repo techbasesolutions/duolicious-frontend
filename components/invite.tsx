@@ -91,7 +91,7 @@ const InvitePicker = ({navigation}) => {
               flexGrow: 1,
             }}
           >
-            <ActivityIndicator size={60} color="#70f"/>
+            <ActivityIndicator size={60} color="#5524F5"/>
           </View>
         }
         {clubs !== undefined && clubs.length === 0 &&

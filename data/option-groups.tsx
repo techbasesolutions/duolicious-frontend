@@ -30,7 +30,7 @@ import { faChildren } from '@fortawesome/free-solid-svg-icons/faChildren'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { NonNullImageCropperOutput } from '../components/image-cropper';
 import { login, logout } from '../chat/application-layer';
-import { LOGARITHMIC_SCALE, Scale } from "../scales/scales";
+import { LOGARITHMIC_SCALE, Scale } from "../util/slider-scales";
 import { VerificationBadge } from '../components/verification-badge';
 import { notify } from '../events/events';
 import { patchProfileInfo } from '../events/profile-info';
@@ -450,7 +450,7 @@ const FinishOnboardingDescription = () => (
       You’re ready to go! But before we unleash you on the other members, let’s
       recap our <DefaultText
         disableTheme
-        onPress={() => Linking.openURL('https://duolicious.app/guidelines/')}
+        onPress={() => Linking.openURL('https://ahavah.app/guidelines/')}
         style={{ fontWeight: '700' }}
       >
         Community Guidelines
@@ -633,7 +633,7 @@ const orientationOptionGroup: OptionGroup<OptionGroupButtons> = {
 const lookingForOptionGroup: OptionGroup<OptionGroupButtons> = {
   title: 'Looking For',
   Icon: ({ color = 'black' }) => <Ionicons style={{fontSize: 16, color}} name="eye" />,
-  description: 'What are you mainly looking for on Duolicious?',
+  description: 'What are you mainly looking for on Ahavah?',
   input: {
     buttons: {
       values: lookingFor,
@@ -1990,7 +1990,7 @@ const privacySettingsOptionGroups: OptionGroup<OptionGroupInputs>[] = [
     ),
     description: () => (
       <DefaultText style={descriptionStyle.style}>
-        With this option set to ‘Yes’, people who aren’t signed into Duolicious
+        With this option set to ‘Yes’, people who aren’t signed into Ahavah
         can view your profile. While ‘Public Profile’ is ‘Yes’, it overrides
         ‘Verification Level’ and ‘Hide Me From Strangers’, so those settings
         won’t apply.
@@ -2056,7 +2056,7 @@ const privacySettingsOptionGroups: OptionGroup<OptionGroupInputs>[] = [
       return (
         <DefaultText style={descriptionStyle.style}>
           With this option set to ‘Yes’, people won’t see you in the feed,
-          search, or anywhere else in Duolicious until you message them first.
+          search, or anywhere else in Ahavah until you message them first.
           {!signedInUser?.hasGold && ' Unlock this feature with Gold.'}
         </DefaultText>
       )

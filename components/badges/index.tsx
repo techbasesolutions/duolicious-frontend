@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { DefaultText } from '../default-text';
 import { Logo16 } from '../logo';
-import { QAndADevice } from '../q-and-a-device';
 import { useEffect, useRef, useState, Fragment } from 'react';
 import Svg, { Polygon } from 'react-native-svg';
 import { faPen } from '@fortawesome/free-solid-svg-icons/faPen'
@@ -27,7 +26,7 @@ const durationColor = '#ff6bfa';
 const Staff = ({
   label,
   tip,
-  color = '#70f',
+  color = '#5524F5',
 }: {
   label: string,
   tip: string,
@@ -71,11 +70,11 @@ const Staff = ({
   );
 };
 
-const Admin = () => <Staff label="admin" tip="Duolicious administrator" />;
+const Admin = () => <Staff label="admin" tip="Ahavah administrator" />;
 
-const Bot = () => <Staff label="bot" tip="Duolicious bot" />;
+const Bot = () => <Staff label="bot" tip="Ahavah bot" />;
 
-const Mod = () => <Staff label="mod" tip="Duolicious moderator" color="black" />;
+const Mod = () => <Staff label="mod" tip="Ahavah moderator" color="black" />;
 
 const Gold = ({
   style = {},
@@ -92,7 +91,7 @@ const Gold = ({
     <View
       ref={viewRef}
       style={{
-        backgroundColor: '#70f',
+        backgroundColor: '#5524F5',
         borderRadius: 999,
         alignItems: 'center',
         justifyContent: 'center',
@@ -115,116 +114,8 @@ const Gold = ({
   );
 };
 
-const QAndA = ({
-  intervalMs = 400,  // time between each step
-  step = 50,         // increment amount
-  startAt = 0,
-  target = 100,
-  pauseMs = 3000,    // pause at target before looping
-  color1 = "#004467",
-  color2 = "#45ddc0",
-  numLoops = Infinity,
-}) => {
-  const { viewRef, props } = useTooltip(`Answered ${target} Q&A`);
-
-  const [count, setCount] = useState(startAt);
-  const timerRef = useRef<NodeJS.Timeout>(null);
-  const countRef = useRef(startAt);
-  const loopsRef = useRef(0);
-
-  useEffect(() => {
-    // Ensure we start from startAt each time props change
-    setCount(startAt);
-    countRef.current = startAt;
-    loopsRef.current = 0;
-
-    const schedule = (delay, fn) => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(fn, delay);
-    };
-
-    const tick = () => {
-      const current = countRef.current;
-      const next = current + step;
-
-      if (next >= target) {
-        // Step to target (if not already there), then maybe loop or stop
-        if (current < target) {
-          setCount(target);
-          countRef.current = target;
-          loopsRef.current += 1;
-        }
-
-        if (Number.isFinite(numLoops) && loopsRef.current >= numLoops) {
-          return; // stop at target; do not schedule further ticks
-        }
-
-        // Pause at target, then reset to startAt and continue
-        schedule(pauseMs, () => {
-          setCount(startAt);
-          countRef.current = startAt;
-          schedule(intervalMs, tick);
-        });
-      } else {
-        // Normal increment
-        setCount(next);
-        countRef.current = next;
-        schedule(intervalMs, tick);
-      }
-    };
-
-    // Kick off the loop after the first interval
-    schedule(intervalMs, tick);
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-    };
-  }, [startAt, step, target, intervalMs, pauseMs, numLoops]);
-
-  return (
-    <View
-      ref={viewRef}
-      style={{
-        height: size,
-        width: size,
-        borderRadius: 999,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      {...props}
-    >
-      <QAndADevice
-        color={color2}
-        height={size * 0.7}
-        backgroundColor="transparent"
-        isBold
-      />
-      <DefaultText
-        style={{
-          marginTop: -3,
-          fontSize: 7,
-          backgroundColor: color2,
-          color: color1,
-          borderRadius: 999,
-          width: '100%',
-          fontWeight: 700,
-          textAlign: 'center',
-        }}
-      >
-        {count}
-      </DefaultText>
-    </View>
-  );
-};
-
-const QAndA200  = () =>
-  <QAndA numLoops={3} target={200}  step={100} />
-
-const QAndA500  = () =>
-  <QAndA numLoops={3} target={500}  step={250} color2="orange" />
-
-const QAndA1000 = () =>
-  <QAndA numLoops={3} target={1000} step={500} color2="black" color1="white" />
+// QAndA / QAndA200 / QAndA500 / QAndA1000 badge family removed in Task 0.3b
+// (Q&A subsystem strip per audit). They were unused outside this file.
 
 const OneWeek = () => {
   const { viewRef, props } = useTooltip(`Member for a week`);
@@ -435,7 +326,7 @@ const LongBio = () => <BaseLongBio numLoops={3} />;
 
 const EarlyAdopter = () => {
   const { viewRef, props } = useTooltip(
-    `Joined Duolicious in its first year`
+    `Joined Ahavah in its first year`
   );
 
   return (
@@ -541,9 +432,7 @@ const Flair = ({
           {f === 'mod'           && <Mod />}
           {f === 'bot'           && <Bot />}
           {f === 'gold'          && <Gold />}
-          {f === 'q-and-a-200'   && <QAndA200 />}
-          {f === 'q-and-a-500'   && <QAndA500 />}
-          {f === 'q-and-a-1000'  && <QAndA1000 />}
+          {/* q-and-a-200 / 500 / 1000 flair removed in Task 0.3b — Q&A subsystem strip. */}
           {f === 'one-week'      && <OneWeek />}
           {f === 'one-month'     && <OneMonth />}
           {f === 'one-year'      && <OneYear />}

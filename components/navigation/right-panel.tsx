@@ -24,7 +24,7 @@ const DuoliciousRightPanelContent = () => {
     <View
       style={{
         borderRadius: 10,
-        backgroundColor: '#70f',
+        backgroundColor: '#5524F5',
         width: '100%',
         padding: 20,
         gap: 20,
@@ -54,8 +54,8 @@ const DuoliciousRightPanelContent = () => {
         Do you have a Discord server, Reddit sub, forum or other social group
         you want to promote? You can do it here, for free!
         {'\n\n'}
-        What’s the catch? You’ll have to promote Duolicious back. (Plus your
-        group should be something Duolicious members would like.)
+        What’s the catch? You’ll have to promote Ahavah back. (Plus your
+        group should be something Ahavah members would like.)
         {'\n\n'}
         Inquiries: {}
         <DefaultText
@@ -64,9 +64,9 @@ const DuoliciousRightPanelContent = () => {
             fontWeight: '700'
           }}
           // @ts-ignore
-          href="mailto:admin@duolicious.app"
+          href="mailto:admin@ahavah.app"
         >
-          admin@duolicious.app
+          admin@ahavah.app
         </DefaultText>
       </DefaultText>
     </View>
@@ -113,7 +113,7 @@ const SponsoredRightPanelContent = () => {
         <DefaultText style={{ fontWeight: '700' }}>
         {partner.name}
         </DefaultText>
-        {} is a Duolicious partner
+        {} is a Ahavah partner
       </DefaultText>
 
       <DefaultText style={{ textAlign: 'center' }}>
@@ -123,9 +123,9 @@ const SponsoredRightPanelContent = () => {
             fontWeight: '700'
           }}
           // @ts-ignore
-          href="mailto:admin@duolicious.app"
+          href="mailto:admin@ahavah.app"
         >
-          admin@duolicious.app
+          admin@ahavah.app
         </DefaultText>
         .
       </DefaultText>

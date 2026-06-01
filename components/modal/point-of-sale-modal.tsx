@@ -139,7 +139,7 @@ const Offering = ({
             justifyContent: 'center',
           }}
         >
-          <ActivityIndicator size="large" color="#70f"/>
+          <ActivityIndicator size="large" color="#5524F5"/>
         </View>
         <Close onPress={onPressClose} />
       </>
@@ -168,7 +168,7 @@ const Offering = ({
   const subtitle =
     referrer === 'blocked'
       ? `You’re gonna need ${productName} for that...`
-      : 'Please support Duolicious 🥺 👉👈'
+      : 'Please support Ahavah 🥺 👉👈'
 
   const onPress = async () => {
     setHasError(false);
@@ -225,7 +225,7 @@ const Offering = ({
                 fontSize: 16,
               }}
             >
-              Duolicious
+              Ahavah
             </DefaultText>
           </View>
           {!isCompact &&
@@ -250,7 +250,7 @@ const Offering = ({
       </View>
       <View
         style={{
-          backgroundColor: '#70f',
+          backgroundColor: '#5524F5',
           borderRadius: 10,
           overflow: 'hidden',
           borderWidth: 3,
@@ -302,7 +302,7 @@ const Offering = ({
 
           <DefaultText
             style={{
-              color: '#70f',
+              color: '#5524F5',
               fontWeight: 700,
               fontSize: 12,
               paddingHorizontal: 7,

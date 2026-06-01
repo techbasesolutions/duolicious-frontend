@@ -165,7 +165,7 @@ const GifPickerModal: React.FC = () => {
           {loading ? (
             <ActivityIndicator
               size="large"
-              color="#70f"
+              color="#5524F5"
               style={styles.loadingIndicator}
             />
           ) : (
@@ -196,7 +196,7 @@ const GifPickerModal: React.FC = () => {
         </View>
         <View style={styles.buttonContainer}>
           <ModalButton color="#999" onPress={cancel} title="Cancel" />
-          <ModalButton color="#70f" onPress={pickGif} title="Send" />
+          <ModalButton color="#5524F5" onPress={pickGif} title="Send" />
         </View>
       </View>
     </Reanimated.View>
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     borderWidth: 6,
   },
   selectedGif: {
-    borderColor: '#70f',
+    borderColor: '#5524F5',
   },
   unselectedGif: {
     borderColor: 'transparent',

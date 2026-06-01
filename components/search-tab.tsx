@@ -18,7 +18,6 @@ import { ProfileCard }  from './profile-card';
 import { DuoliciousTopNavBar } from './top-nav-bar';
 import { SearchFilterScreen } from './search-filter-screen';
 import { DefaultText } from './default-text';
-import { QAndADevice } from './q-and-a-device';
 import { Notice } from './notice';
 import { DefaultFlatList } from './default-flat-list';
 import { japi } from '../api/api';
@@ -508,22 +507,10 @@ const ListHeaderComponent = ({
     />;
   }
 
-  return (
-    <Notice
-      onPress={() => navigation.navigate('Q&A')}
-      style={{
-        marginTop: 10,
-      }}
-    >
-      <DefaultText style={{ color: appTheme.brandColor }}>
-        Get better matches by playing Q&A{' '}
-      </DefaultText>
-      <QAndADevice
-        color={appTheme.brandColor}
-        backgroundColor={appTheme.avatarBackgroundColor}
-      />
-    </Notice>
-  );
+  // The "Get better matches by playing Q&A" notice was removed in Task 0.3b.
+  // No header content when the user has no clubs; the swipe deck (Phase 6
+  // Task 6.1) will replace this entire surface.
+  return null;
 };
 
 const SearchScreen_ = ({navigation}) => {

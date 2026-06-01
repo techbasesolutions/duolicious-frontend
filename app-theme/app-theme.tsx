@@ -44,12 +44,12 @@ const APP_THEME: AppThemes = {
     },
     interactiveBorderColor: '#dddddd',
     quizCardBackgroundColor: '#ffffff',
-    quizCardColor: '#7700ff',
+    quizCardColor: '#5524F5',  // Persian Indigo (was duolicious '#5524F5')
     speechBubbleOtherUserBackgroundColor: '#eeeeee',
     speechBubbleOtherUserColor: '#000000',
-    brandColor: '#7700ff',
-    avatarBackgroundColor: '#f1e5ff',
-    avatarColor: 'rgba(119, 0, 255, 0.2)',
+    brandColor: '#5524F5',     // Persian Indigo (was duolicious '#5524F5')
+    avatarBackgroundColor: '#E8DFFF',  // pale Persian Indigo (was duolicious '#f1e5ff')
+    avatarColor: 'rgba(85, 36, 245, 0.2)',  // Persian Indigo at 20% (was duolicious purple)
   },
   dark: {
     primaryColor: '#1a1a1e',

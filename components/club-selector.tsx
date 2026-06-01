@@ -50,15 +50,15 @@ const SelectedClub = ({
       <Basic
         style={{
           backgroundColor: appThemeName === 'dark'
-            ? 'rgba(119, 0, 255, 1.0)'
-            : 'rgba(119, 0, 255, 0.1)',
+            ? 'rgba(85, 36, 245, 1.0)'
+            : 'rgba(85, 36, 245, 0.1)',
           flexShrink: 1,
           borderBottomWidth: 3,
         }}
         textStyle={{
           color: appThemeName === 'dark'
             ? '#ffffff'
-            : '#7700ff',
+            : '#5524F5',
         }}
       >
         {clubItem.name}

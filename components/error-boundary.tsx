@@ -65,12 +65,12 @@ class CallbackErrorBoundary extends Component<Props, State> {
       return (
         <View style={styles.container}>
           <Text style={styles.text}>
-            Duolicious crashed so hard we don't even have a pretty error
+            Ahavah crashed so hard we don't even have a pretty error
             message.
             {'\n\n'}
             Try clearing your cache/storage or reinstalling the app.
             {'\n\n'}
-            If this error persists, contact: support@duolicious.app
+            If this error persists, contact: support@ahavah.app
           </Text>
         </View>
       );

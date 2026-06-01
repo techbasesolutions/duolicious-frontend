@@ -250,7 +250,7 @@ const Chart = ({name1, percentage1, name2, percentage2, ...props}) => {
             labelPercentage={labelPercentage(percentage2)}
             extraHeight={20}/>
           <Tick
-            color="#70f"
+            color="#5524F5"
             position={percentage1}
             label={name1}
             round={compact}
@@ -271,7 +271,7 @@ const Chart = ({name1, percentage1, name2, percentage2, ...props}) => {
                 <>
                   {'\n\n'}
                   A score of {percentage1}% means that
-                  about {100 - percentage1}% people on Duolicious scored higher
+                  about {100 - percentage1}% people on Ahavah scored higher
                   than that, and about {percentage1}% scored lower.
                 </>
               }

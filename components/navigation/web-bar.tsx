@@ -40,7 +40,7 @@ const Logo = () => {
         }}
         selectable={false}
       >
-        Duolicious
+        Ahavah
       </Text>
     </View>
   );
@@ -77,7 +77,7 @@ const NavigationItems = ({state, navigation, descriptors}) => {
           if (appThemeName === 'dark') {
             return isFocused ?  '#ffffff' : '#000000';
           } else {
-            return isFocused ?  '#ffffff' : '#7700ff';
+            return isFocused ?  '#ffffff' : '#5524F5';
           }
         })();
 
@@ -89,7 +89,7 @@ const NavigationItems = ({state, navigation, descriptors}) => {
             return '#ffffff4d';
           }
 
-          return appThemeName === 'dark' ? '#000000' : '#7700ff';
+          return appThemeName === 'dark' ? '#000000' : '#5524F5';
         })();
 
         return (
@@ -172,7 +172,7 @@ const WebBar = ({state, navigation, tabBarStyle, descriptors}) => {
     <ScrollView
       style={{
         height: '100%',
-        backgroundColor: appThemeName === 'dark' ? 'black' : '#70f',
+        backgroundColor: appThemeName === 'dark' ? 'black' : '#5524F5',
         borderRightWidth: 5,
         borderColor: 'black',
       }}

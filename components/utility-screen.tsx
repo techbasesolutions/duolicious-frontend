@@ -58,7 +58,7 @@ const UtilityScreen = ({
   return (
     <View
       style={{
-        backgroundColor: '#70f',
+        backgroundColor: '#5524F5',
         width: '100%',
         height: '100%',
         alignItems: 'center',
@@ -84,7 +84,7 @@ const UtilityScreen = ({
           }}
           selectable={false}
         >
-          Duolicious
+          Ahavah
         </Text>
         <DefaultText
           style={{

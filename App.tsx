@@ -2,6 +2,7 @@ import {
   Animated,
   Platform,
   UIManager,
+  View,
 } from 'react-native';
 import {
   useCallback,
@@ -24,7 +25,6 @@ import * as ExpoSplashScreen from 'expo-splash-screen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabBar } from './components/navigation/tab-bar';
 import { SearchTab } from './components/search-tab';
-import { QuizTab } from './components/quiz-tab';
 import { ProfileTab } from './components/profile-tab';
 import { InboxTab } from './components/inbox-tab';
 import { FeedTab } from './components/feed-tab';
@@ -33,6 +33,8 @@ import { ConversationScreen } from './components/conversation-screen/conversatio
 import { ServerStatus, UtilityScreen } from './components/utility-screen';
 import { ProspectProfileScreen } from './components/prospect-profile-screen';
 import { InviteScreen, WelcomeScreen } from './components/welcome-screen';
+import { DesignSystemShowcase } from './screens/design-system-showcase';
+import { ToastHost as AhavahToastHost } from './components/ui/toast';
 import { sessionToken, sessionPersonUuid } from './kv-storage/session-token';
 import { lastPath } from './kv-storage/last-path';
 import { clearAllKv } from './kv-storage/kv-storage';
@@ -68,6 +70,16 @@ import { useAppThemeLoader, useAppTheme } from './app-theme/app-theme';
 import { computeStartupNavigationState } from './navigation/startup';
 import { resetUserScopedClientState } from './navigation/reset-client-state';
 
+// Task 0.9 — NativeWind entry stylesheet.
+// Side-effect import; metro's withNativeWind transformer rewires `className`
+// props at build time using ahavah-design-tokens via tailwind.config.js.
+import './global.css';
+
+// Task 0.6 — initialize i18next as early as possible so any consumer can
+// call `useTranslation()` / `t(...)` without a separate setup. The module
+// auto-detects the device locale via expo-localization and falls back to en.
+import './i18n';
+
 verificationWatcher();
 
 ExpoSplashScreen.preventAutoHideAsync();
@@ -92,7 +104,8 @@ const HomeTabs = () => {
       }}
       tabBar={props => <TabBar {...props} />}
     >
-      <Tab.Screen name="Q&A" component={QuizTab} options={{ title: 'Q&A' }} />
+      {/* Q&A tab removed in Task 0.3b — Q&A subsystem strip per audit. */}
+      {/* Final 4-tab shape (Discover / Matches / Inbox / Profile) lands in Phase 6 Task 6.1's BottomNavBar. */}
       <Tab.Screen name="Search" component={SearchTab} options={{ title: 'Search' }} />
       <Tab.Screen name="Feed" component={FeedTab} options={{ title: 'Feed' }} />
       <Tab.Screen name="Inbox" component={InboxTab} options={{ title: 'Inbox' }} />
@@ -119,6 +132,9 @@ const WebSplashScreen = ({loading}) => {
   if (isFaded) {
     return null;
   } else {
+    // Task 0.9 — splash rebuilt against ahavah-design-tokens.
+    // Black canvas + lime brand mark + a NativeWind className-driven indigo
+    // bar at the bottom that proves the className → token pipeline works.
     return (
       <Animated.View
         style={{
@@ -130,12 +146,40 @@ const WebSplashScreen = ({loading}) => {
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'space-around',
-          backgroundColor: '#70f',
+          backgroundColor: '#000000',  // bg.DEFAULT from ahavah-design-tokens
           opacity: opacity,
           zIndex: 999,
         }}
       >
-        <Logo16 size={96} fadeOutDelay={0} fadeInDelay={0} doAnimate={true} />
+        <View>
+          <Animated.Text
+            style={{
+              color: '#D7FF81',  // lime.500 from ahavah-design-tokens
+              fontSize: 64,
+              fontWeight: '800',
+              letterSpacing: -1.5,
+              textAlign: 'center',
+            }}
+          >
+            ahavah
+          </Animated.Text>
+          <Animated.Text
+            style={{
+              color: '#BC96FF',  // lavender.500 from ahavah-design-tokens
+              fontSize: 14,
+              fontWeight: '400',
+              textAlign: 'center',
+              marginTop: 8,
+              letterSpacing: 1,
+            }}
+          >
+            FIND LOVE ACROSS BORDERS
+          </Animated.Text>
+        </View>
+        {/* Smoke gate: if NativeWind is wired, this bar renders Persian Indigo.
+            If you see a 4px-tall indigo bar at the bottom of the splash, the
+            className → tailwind preset → ahavah-design-tokens pipeline works. */}
+        <View className="bg-indigo-500 h-1 w-full" style={{position: 'absolute', bottom: 0}} />
       </Animated.View>
     );
   }
@@ -205,7 +249,7 @@ const App = () => {
     // React Navigation forbids two screens sharing a pattern, we hang each
     // top-level destination off a distinct child path:
     //   - Logged out: `/` -> Welcome / Welcome Screen
-    //   - Logged in:  `/qa`, `/search`, `/profile`, ... (Home's tabs)
+    //   - Logged in:  `/search`, `/profile`, ... (Home's tabs; `/qa` removed in 0.3b)
     // `Home` itself has no `path`, so its tabs' paths are matched directly
     // at the URL root. This avoids a `Home` vs `Welcome` conflict at `''`.
     //
@@ -230,7 +274,7 @@ const App = () => {
         },
         Home: {
           screens: {
-            'Q&A': 'qa',
+            // 'Q&A': 'qa' removed in Task 0.3b — see Q&A subsystem strip.
             Search: {
               path: 'search',
               initialRouteName: 'Search Screen',
@@ -242,7 +286,7 @@ const App = () => {
                   screens: {
                     'Search Filter Tab': '',
                     'Search Filter Option Screen': 'edit',
-                    'Q&A Filter Screen': 'qa',
+                    // 'Q&A Filter Screen': 'qa' removed in Task 0.3b.
                   },
                 },
               },
@@ -277,10 +321,15 @@ const App = () => {
             // Avoid conflicts with `/profile/settings` etc
             'Prospect Profile': `profile/:personUuid(${UUID_REGEX_SOURCE})`,
             'Gallery Screen': 'gallery/:photoUuid',
-            'In-Depth': `in-depth/:personUuid(${UUID_REGEX_SOURCE})`,
+            // 'In-Depth' route removed in Task 0.3b — Q&A subsystem strip.
           },
         },
         'Invite Screen': 'invite/:clubName',
+        // Phase D Task D.2 + Phase 6 Task 6.2 — design system showcase
+        // + per-screen reproductions of the Dateasy kit. Reachable via
+        // http://localhost:8081/design-system. Unconditional for now;
+        // production-build hide is a TODO.
+        'Design System': 'design-system',
       },
     };
 
@@ -303,13 +352,19 @@ const App = () => {
 
         // The app root `/` is shared between the logged-out Welcome screen
         // and the logged-in Home tabs. We want `/` to land on the default
-        // Q&A tab for signed-in users rather than `{ routes: [{ name: 'Home' }] }`,
-        // which would let the bottom-tab navigator keep whichever tab was
-        // previously focused. Delegate to React Navigation's resolver so
-        // this stays in sync with whatever path the Q&A tab is mapped to.
+        // tab for signed-in users (currently Search, the discovery
+        // placeholder until Phase 6 builds SwipeDeck). Delegate to React
+        // Navigation's resolver so this stays in sync with whatever path
+        // the default tab is mapped to.
         const pathname = normalized.split('?')[0].replace(/\/$/, '') || '/';
         if (pathname === '/' && getSignedInUser()) {
-          return rnGetStateFromPath('/qa', options);
+          return rnGetStateFromPath('/search', options);
+        }
+
+        // Legacy `/qa` URLs (from before Task 0.3b's Q&A strip) → redirect
+        // signed-in users to the default tab so old bookmarks don't 404.
+        if (pathname === '/qa' && getSignedInUser()) {
+          return rnGetStateFromPath('/search', options);
         }
 
         // For anything we don't recognise, fall back to the app root rather
@@ -317,7 +372,7 @@ const App = () => {
         const state = rnGetStateFromPath(normalized, options);
         if (state) return state;
         return getSignedInUser()
-          ? rnGetStateFromPath('/qa', options)
+          ? rnGetStateFromPath('/search', options)
           : { routes: [{ name: 'Welcome' }] };
       },
       getPathFromState: rnGetPathFromState,
@@ -325,19 +380,46 @@ const App = () => {
   }, []);
 
   const loadFonts = useCallback(async () => {
-    await Font.loadAsync({
-      Trueno: require('./assets/fonts/TruenoRound.otf'),
-      TruenoBold: require('./assets/fonts/TruenoRoundBd.otf'),
+    // Task 0.9 — Plus Jakarta Sans (Google Fonts, free) chosen as the
+    // closest commercial-licensed match for Cabinet Grotesk's geometric +
+    // friendly personality. The duolicious font names (Trueno*, Montserrat*)
+    // are aliased to Plus Jakarta Sans weight equivalents so every
+    // `fontFamily: 'Trueno'` reference across the codebase renders in the
+    // new face without touching the call sites.
+    //
+    // Phase D Task D.1 may swap to Cabinet Grotesk proper once the Fontshare
+    // file is in `assets/fonts/`; until then this gives a real visual change.
+    const {
+      PlusJakartaSans_200ExtraLight,
+      PlusJakartaSans_300Light,
+      PlusJakartaSans_400Regular,
+      PlusJakartaSans_500Medium,
+      PlusJakartaSans_600SemiBold,
+      PlusJakartaSans_700Bold,
+      PlusJakartaSans_800ExtraBold,
+    } = require('@expo-google-fonts/plus-jakarta-sans');
 
-      MontserratBlack: require('./assets/fonts/montserrat/static/Montserrat-Black.ttf'),
-      MontserratBold: require('./assets/fonts/montserrat/static/Montserrat-Bold.ttf'),
-      MontserratExtraBold: require('./assets/fonts/montserrat/static/Montserrat-ExtraBold.ttf'),
-      MontserratExtraLight: require('./assets/fonts/montserrat/static/Montserrat-ExtraLight.ttf'),
-      MontserratLight: require('./assets/fonts/montserrat/static/Montserrat-Light.ttf'),
-      MontserratMedium: require('./assets/fonts/montserrat/static/Montserrat-Medium.ttf'),
-      MontserratRegular: require('./assets/fonts/montserrat/static/Montserrat-Regular.ttf'),
-      MontserratSemiBold: require('./assets/fonts/montserrat/static/Montserrat-SemiBold.ttf'),
-      MontserratThin: require('./assets/fonts/montserrat/static/Montserrat-Thin.ttf'),
+    await Font.loadAsync({
+      // Aliases — duolicious-named slots → Plus Jakarta Sans weights
+      Trueno:               PlusJakartaSans_400Regular,
+      TruenoBold:           PlusJakartaSans_700Bold,
+
+      MontserratThin:       PlusJakartaSans_200ExtraLight,
+      MontserratExtraLight: PlusJakartaSans_200ExtraLight,
+      MontserratLight:      PlusJakartaSans_300Light,
+      MontserratRegular:    PlusJakartaSans_400Regular,
+      MontserratMedium:     PlusJakartaSans_500Medium,
+      MontserratSemiBold:   PlusJakartaSans_600SemiBold,
+      MontserratBold:       PlusJakartaSans_700Bold,
+      MontserratExtraBold:  PlusJakartaSans_800ExtraBold,
+      MontserratBlack:      PlusJakartaSans_800ExtraBold,
+
+      // Direct names — for new code that wants to opt in by real name
+      PlusJakartaSans_400Regular,
+      PlusJakartaSans_500Medium,
+      PlusJakartaSans_600SemiBold,
+      PlusJakartaSans_700Bold,
+      PlusJakartaSans_800ExtraBold,
     });
   }, []);
 
@@ -467,7 +549,7 @@ const App = () => {
     if (topRouteName === 'Welcome') {
       navigationContainer.reset({
         routes: [
-          { name: 'Home', state: { routes: [{ name: 'Q&A' }] } },
+          { name: 'Home', state: { routes: [{ name: 'Search' }] } },
         ],
       });
     }
@@ -684,14 +766,14 @@ const App = () => {
               documentTitle={{
                 // The focused screen can set its own `title` option (e.g. the
                 // prospect profile sets it to the prospect's name once the
-                // API resolves) and we splice it in front of "Duolicious".
+                // API resolves) and we splice it in front of "Ahavah".
                 // Screens that don't set a title fall through to the bare
                 // app name.
                 formatter: (options) => {
                   const prefix = numUnread ? `(${numUnread}) ` : '';
                   const screenTitle = options?.title;
                   return prefix + (
-                    screenTitle ? `${screenTitle} - Duolicious` : 'Duolicious'
+                    screenTitle ? `${screenTitle} - Ahavah` : 'Ahavah'
                   );
                 },
               }}
@@ -719,6 +801,19 @@ const App = () => {
                   name="Invite Screen"
                   component={InviteScreen}
                   options={{ title: 'Invitation' }} />
+                {/* Phase D Task D.2 — design-system + kit reproductions.
+                    Reachable at /design-system. Production-build hide is a TODO. */}
+                <Stack.Screen
+                  name="Design System"
+                  component={DesignSystemShowcase}
+                  options={{ title: 'Design System' }}
+                />
+                {/*
+                  IMPORTANT — when adding more dev-only screens later, use a
+                  separate <Stack.Group> conditional rather than `{__DEV__ && ...}`
+                  inline; React Navigation parses children at mount and bare
+                  conditional booleans confuse the linking-config matcher.
+                */}
               </Stack.Navigator>
             </NavigationContainer>
             <TooltipListener/>
@@ -727,6 +822,8 @@ const App = () => {
             <ColorPickerModal/>
             <GifPickerModal/>
             <Toast/>
+            {/* Phase 6 Task 6.1 — Ahavah-styled toast, top-anchored. Coexists with the duolicious Toast above. */}
+            <AhavahToastHost/>
             <PointOfSaleModal/>
             <VerificationCameraModal/>
           </GestureHandlerRootView>

@@ -1,157 +1,71 @@
-import { useRef } from 'react';
-import {
-  Pressable,
-  Animated,
-  View,
-} from 'react-native';
-import { DefaultText } from '../default-text';
-import { useInboxStats } from '../../chat/application-layer/hooks/inbox-stats';
+/**
+ * Phase 6 Task 6.1 — TabBar wired to the new BottomNavBar atom.
+ *
+ * The function signature stays the same (consumed by App.tsx as
+ * `tabBar={props => <TabBar {...props} />}`) so no navigator
+ * restructuring is needed for the visual swap to land. We map the
+ * existing react-navigation `state.routes` into BottomNavBar's
+ * `NavTab[]` shape; the locked 4-tab Discover/Matches/Inbox/Profile
+ * shape per Task 0.0 audit lands when navigator routes are renamed
+ * to match (separate task).
+ *
+ * Glyph + label per route is held in a small map below; new routes
+ * fall back to the route name + a generic glyph.
+ */
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { LabelToIcon } from './util';
-import { useAppTheme } from '../../app-theme/app-theme';
+import { BottomNavBar, type NavTab } from '../ui/bottom-nav-bar';
 
-const Tab = ({ navigation, state, route, descriptors, index, numUnread }) => {
-  const { appThemeName, appTheme } = useAppTheme();
+// Maps existing React Navigation route names to the icon + label that
+// BottomNavBar will render. Until the locked tab-shape rewrite, the
+// 5 duolicious-inherited routes are present with Ahavah glyphs.
+const ROUTE_TO_TAB: Record<string, { glyph: string; label: string }> = {
+  Search:   { glyph: '✦', label: 'Discover' },
+  Feed:     { glyph: '◎', label: 'Feed' },
+  Inbox:    { glyph: '✉', label: 'Inbox' },
+  Visitors: { glyph: '☆', label: 'Visitors' },
+  Profile:  { glyph: '☻', label: 'Profile' },
+};
 
-  const animated = useRef(new Animated.Value(1)).current;
+const FALLBACK_TAB = { glyph: '•', label: '' };
 
-  const backgroundColor = animated.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['rgba(0, 0, 0, 1)', 'transparent'],
-    extrapolate: 'clamp',
+const TabBar = ({ state, descriptors, navigation }: any) => {
+  const insets = useSafeAreaInsets();
+
+  const tabs: NavTab[] = state.routes.map((route: any) => {
+    const meta = ROUTE_TO_TAB[route.name] ?? { ...FALLBACK_TAB, label: route.name };
+    return { key: route.name, label: meta.label, glyph: meta.glyph };
   });
 
-  const fadeOut = () => {
-    Animated.timing(animated, {
-      toValue: 1,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-  };
+  const activeRoute = state.routes[state.index];
+  const activeKey = activeRoute?.name ?? tabs[0]?.key ?? '';
 
-  const fadeIn = () => animated.setValue(appThemeName === 'dark' ? 0 : 0.9);
-
-  const { options } = descriptors[route.key];
-  const label =
-    options.tabBarLabel !== undefined
-      ? options.tabBarLabel
-      : options.title !== undefined
-      ? options.title
-      : route.name;
-
-  const isFocused = state.index === index;
-
-  const onPress = () => {
-    // TODO: Do I even need this?
-    // navigation.dispatch(StackActions.popToTop());
+  const onTabPress = (key: string) => {
+    const targetIdx = state.routes.findIndex((r: any) => r.name === key);
+    if (targetIdx === -1) return;
+    const target = state.routes[targetIdx];
 
     const event = navigation.emit({
       type: 'tabPress',
-      target: route.key,
+      target: target.key,
       canPreventDefault: true,
     });
 
+    const isFocused = state.index === targetIdx;
     if (!isFocused && !event.defaultPrevented) {
-      // The `merge: true` option makes sure that the params inside the tab screen are preserved
-      navigation.navigate({ name: route.name, merge: true });
+      // `merge: true` preserves params already on the tab screen
+      navigation.navigate({ name: target.name, merge: true });
     }
   };
 
   return (
-    <Pressable
-      key={route.key}
-      onPress={onPress}
-      onPressIn={fadeIn}
-      onPressOut={fadeOut}
-      style={{
-        flex: 1,
-        height: '100%',
-      }}
-    >
-      <Animated.View
-        accessibilityRole="button"
-        accessibilityState={isFocused ? { selected: true } : {}}
-        accessibilityLabel={options.tabBarAccessibilityLabel}
-        testID={options.tabBarTestID}
-        style={{
-          width: '100%',
-          height: '100%',
-          paddingTop: 6,
-          paddingBottom: 6,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: backgroundColor,
-          flexDirection: 'column',
-          overflow: 'visible',
-        }}
-      >
-        <LabelToIcon
-          label={label}
-          isFocused={isFocused}
-          numUnread={numUnread}
-          color={appTheme.secondaryColor}
-          backgroundColor={appTheme.primaryColor}
-          indicatorColor={appTheme.primaryColor}
-          indicatorBackgroundColor={appTheme.brandColor}
-          indicatorBorderColor={appTheme.primaryColor}
-        />
-        <DefaultText
-          style={{
-            textAlign: 'center',
-            fontFamily: isFocused ? 'MontserratBold' : 'MontserratRegular',
-            fontSize: 12,
-          }}
-        >
-          {label}
-        </DefaultText>
-      </Animated.View>
-    </Pressable>
+    <BottomNavBar
+      tabs={tabs}
+      activeKey={activeKey}
+      onTabPress={onTabPress}
+      bottomInset={insets.bottom}
+    />
   );
 };
 
-const TabBar = ({state, descriptors, navigation}) => {
-  const insets = useSafeAreaInsets();
-
-  const stats = useInboxStats();
-  const numUnread =
-    (stats?.numUnreadChats ?? 0) +
-    (stats?.numUnreadIntros ?? 0);
-
-  return (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 50 + insets.bottom,
-        width: '100%',
-        overflow: 'visible',
-      }}
-    >
-      <View
-        style={{
-          flexDirection: 'row',
-          height: '100%',
-          width: '100%',
-          maxWidth: 600,
-          overflow: 'visible',
-        }}
-      >
-        {state.routes.map((route, index) =>
-          <Tab
-            key={index}
-            navigation={navigation}
-            state={state}
-            route={route}
-            descriptors={descriptors}
-            index={index}
-            numUnread={numUnread}
-          />
-        )}
-      </View>
-    </View>
-  );
-};
-
-export {
-  TabBar,
-};
+export { TabBar };

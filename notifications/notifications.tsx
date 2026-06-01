@@ -23,7 +23,7 @@ const requestPermissionOnWeb = async (): Promise<MaybeToken> => {
   }
 
   notifyOnWeb(
-    'Duolicious',
+    'Ahavah',
     'Here’s what a message will look like 💜',
     true
   );
