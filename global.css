@@ -1,0 +1,7 @@
+/* Task 0.9 — NativeWind entry stylesheet.
+   Imported via metro.config.ts withNativeWind({ input: './global.css' }).
+   Don't add component CSS here; use Tailwind classes inline on RN components. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

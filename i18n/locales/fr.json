@@ -1,0 +1,21 @@
+{
+  "_": "Stub locale — Phase 6 Task 6.5 will machine-translate from en.json (DeepL).",
+  "app": {
+    "name": "Ahavah",
+    "tagline": "Trouvez l'amour au-delà des frontières et des langues."
+  },
+  "auth": {
+    "welcome_title": "Bienvenue sur Ahavah",
+    "welcome_subtitle": "Profils vérifiés. Vraies rencontres. Plus de 100 langues.",
+    "continue_email": "Continuer avec l'email",
+    "continue_phone": "Continuer avec le téléphone",
+    "continue_apple": "Continuer avec Apple",
+    "continue_google": "Continuer avec Google",
+    "terms_disclaimer": "En continuant, vous acceptez nos Conditions et notre Politique de confidentialité."
+  },
+  "errors": {
+    "generic": "Une erreur s'est produite. Veuillez réessayer.",
+    "network_offline": "Vous êtes hors ligne. Reconnectez-vous, nous réessaierons.",
+    "auth_failed": "Connexion échouée. Vérifiez votre code."
+  }
+}

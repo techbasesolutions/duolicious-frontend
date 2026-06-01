@@ -1,0 +1,21 @@
+{
+  "_": "Stub locale — Phase 6 Task 6.5 will machine-translate from en.json (DeepL) and human-review for the launch wedge's primary languages.",
+  "app": {
+    "name": "Ahavah",
+    "tagline": "Encuentra el amor sin fronteras, más allá del idioma."
+  },
+  "auth": {
+    "welcome_title": "Bienvenido a Ahavah",
+    "welcome_subtitle": "Perfiles verificados. Conexiones reales. Más de 100 idiomas.",
+    "continue_email": "Continuar con email",
+    "continue_phone": "Continuar con teléfono",
+    "continue_apple": "Continuar con Apple",
+    "continue_google": "Continuar con Google",
+    "terms_disclaimer": "Al continuar aceptas nuestros Términos y Política de Privacidad."
+  },
+  "errors": {
+    "generic": "Algo salió mal. Por favor inténtalo de nuevo.",
+    "network_offline": "Estás sin conexión. Reconéctate y reintentaremos.",
+    "auth_failed": "No pudimos iniciar tu sesión. Verifica tu código."
+  }
+}

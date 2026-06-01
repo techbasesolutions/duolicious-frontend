@@ -1,0 +1,21 @@
+{
+  "_": "Stub locale — Phase 6 Task 6.5 will machine-translate from en.json (DeepL). Used as RTL test in Phase D Task D.2.",
+  "app": {
+    "name": "Ahavah",
+    "tagline": "اعثر على الحب عبر الحدود، وراء اللغة."
+  },
+  "auth": {
+    "welcome_title": "مرحباً بك في Ahavah",
+    "welcome_subtitle": "ملفات شخصية موثقة. روابط حقيقية. أكثر من 100 لغة.",
+    "continue_email": "المتابعة بالبريد الإلكتروني",
+    "continue_phone": "المتابعة بالهاتف",
+    "continue_apple": "المتابعة بـ Apple",
+    "continue_google": "المتابعة بـ Google",
+    "terms_disclaimer": "بالمتابعة، فإنك توافق على شروطنا وسياسة الخصوصية."
+  },
+  "errors": {
+    "generic": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "network_offline": "أنت غير متصل. أعد الاتصال وسنعيد المحاولة.",
+    "auth_failed": "تعذّر تسجيل الدخول. تحقق من الرمز."
+  }
+}
